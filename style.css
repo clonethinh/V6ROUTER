@@ -1216,17 +1216,40 @@ body {
     width: 100%;
 }
 
+@media (max-width: 600px) {
+    .toast-container {
+        top: auto;
+        bottom: var(--spacing-6);
+        right: var(--spacing-6);
+    }
+}
+
 .toast {
+    position: relative; /* Để ::before định vị đúng */
+    overflow: hidden;
     display: flex;
     align-items: center;
-    gap: var(--spacing-3);
-    padding: var(--spacing-4);
+    padding: var(--spacing-3);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-lg);
-    border: 1px solid;
-    animation: slideIn 0.3s ease-out;
-    position: relative;
-    overflow: hidden;
+    border: 1px solid transparent;
+    box-shadow: 0 8px 32px rgba(36,48,66,0.10), 0 2px 4px rgba(96, 121, 164, 0.04);
+    max-width: 400px;
+    width: 100%;
+    animation: toast-slidein 0.4s cubic-bezier(0.3,0.7,0.4,1.5);
+    transition: box-shadow 0.18s, opacity 0.22s, transform 0.2s;
+    opacity: 1;
+}
+
+@keyframes toast-slidein {
+    from { opacity: 0; transform: translateY(20px) scale(0.96);}
+    to   { opacity: 1; transform: translateY(0) scale(1);}
+}
+
+.toast.hide {
+    opacity: 0;
+    transform: translateY(25px) scale(0.95);
+    pointer-events: none;
+    transition: opacity 0.18s, transform 0.2s;
 }
 
 .toast::before {
@@ -1235,8 +1258,15 @@ body {
     bottom: 0;
     left: 0;
     height: 3px;
+    width: 0;
     background: currentColor;
     animation: progress 4s linear forwards;
+    border-radius: 2px 2px 0 0;
+}
+
+@keyframes progress {
+    from { width: 0; }
+    to   { width: 100%; }
 }
 
 .toast.success {
@@ -1266,6 +1296,7 @@ body {
 .toast-icon {
     font-size: var(--font-size-lg);
     flex-shrink: 0;
+    margin-right: var(--spacing-3);
 }
 
 .toast-content {
@@ -1281,6 +1312,7 @@ body {
 .toast-message {
     font-size: var(--font-size-xs);
     opacity: 0.8;
+    word-break: break-word;
 }
 
 .toast-close {
@@ -1292,11 +1324,17 @@ body {
     border-radius: var(--border-radius);
     transition: var(--transition);
     opacity: 0.7;
+    margin-left: var(--spacing-2);
 }
 
 .toast-close:hover {
     opacity: 1;
     background: rgba(0, 0, 0, 0.1);
+}
+
+.toast-close:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
 }
 
 @keyframes slideIn {
