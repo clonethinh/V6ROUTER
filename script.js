@@ -158,7 +158,7 @@ class SMSManager {
         // – Tạm dừng theo user-activity
         if (activityCheckbox) {
             const savedPause = localStorage.getItem('userActivityPause');
-            activityCheckbox.checked = savedPause === null ? true : savedPause === 'true';
+            activityCheckbox.checked = savedPause === null ? false : savedPause === 'true';
             this.userActivityEnabled = activityCheckbox.checked;
         }
     
@@ -2267,7 +2267,7 @@ class SMSManager {
     startAutoSync() {
         setInterval(() => {
             this.syncWithServer();
-        }, 30000); // 30 seconds
+        }, 2000); // 30 seconds
     }
 
     resetNewMessageForm() {
@@ -2502,7 +2502,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Bật auto sync sau 1 phút
     setTimeout(() => {
         window.smsManager.startAutoSync();
-    }, 60000);
+    }, 2000);
 });
 
 // Add some additional CSS for status badges
